@@ -1,6 +1,5 @@
-import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'post_display.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,10 +10,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appTitle,
-      home: HomePage(
-        title: appTitle,
-        channel: IOWebSocketChannel.connect('ws://echo.websocket.org'),
-        ),
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+      ),   
+      home: PostDisplay(),
     );
   }
 }
