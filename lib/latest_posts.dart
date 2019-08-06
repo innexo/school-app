@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'navbars.dart';
 
 class PostDisplay extends StatefulWidget {
+  static const String routeName = '/';
 
-  PostDisplay({Key key,}) : super(key: key);
+  PostDisplay({
+    Key key,
+  }) : super(key: key);
 
   @override
   _UpdateDisplay createState() => _UpdateDisplay();
 }
-  
+
 class _UpdateDisplay extends State<PostDisplay> {
   ScrollController controller;
   List<String> posts;
@@ -28,8 +31,8 @@ class _UpdateDisplay extends State<PostDisplay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Placeholder')),
-      drawer: Navbars(),
+      appBar: AppBar(title: Text(ModalRoute.of(context).settings.name)),
+      drawer: AppDrawer(),
     );
   }
 

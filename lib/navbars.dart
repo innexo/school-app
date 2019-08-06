@@ -1,52 +1,94 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'map_page.dart';
 
-class Navbars extends StatelessWidget {
+import 'app_routes.dart';
 
-  Navbars({Key key}) : super(key: key);
-
+class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          Container(
-              height: Theme.of(context).textTheme.body1.fontSize * 8,
-              child: DrawerHeader(
-                child: Text(
-                  'Options',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blue[400],
-              ),
-              margin: EdgeInsets.all(0.0),
-              padding: EdgeInsets.all(0.0)),
-          ListTile(
-            title: Text('School Map'),
+          _createHeader(),
+          _createDrawerItem(
+            text: 'Recent Posts',
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MapPage()),
-              );
+              if ((ModalRoute.of(context)
+                  .settings
+                  .name
+                  .endsWith(Routes.postsDisplayPage))) {
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacementNamed(
+                    context, Routes.postsDisplayPage);
+              }
             },
+            selected: isSelected(context, Routes.postsDisplayPage),
+          ),
+          _createDrawerItem(
+            text: 'Campus Map',
+            onTap: () {
+              if ((ModalRoute.of(context)
+                  .settings
+                  .name
+                  .endsWith(Routes.campusMap))) {
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.campusMap);
+              }
+            },
+            selected: isSelected(context, Routes.campusMap),
+          ),
+          Divider(),
+          _createDrawerItem(
+            text: 'Report an issue',
+            onTap: () {},
           ),
           ListTile(
-            title: Text('Item 2'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
-            },
+            title: Text(
+              '0.0.1',
+              style: TextStyle(color: (Colors.black)),
+            ),
+            onTap: () {},
           ),
         ],
       ),
     );
+  }
+
+  Widget _createHeader() {
+    return DrawerHeader(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        child: Stack(children: <Widget>[
+          Positioned(
+              bottom: 12.0,
+              left: 16.0,
+              child: Text("Flutter Step-by-Step",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500))),
+        ]));
+  }
+
+  Widget _createDrawerItem(
+      {String text, GestureTapCallback onTap, bool selected = false}) {
+    return ListTile(
+      selected: selected,
+      title: Row(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Text(text),
+          )
+        ],
+      ),
+      onTap: onTap,
+    );
+  }
+
+  bool isSelected(context, route) {
+    return ModalRoute.of(context).settings.name.endsWith(route);
   }
 }
